@@ -1,11 +1,10 @@
 
 package com.mycompany.ppi.estructure.linkedList.singly;
 
-import co.edu.tdea.edd.model.geography.Country;
 import com.mycompany.ppi.estructure.stack.*;
 
 public class ListSingly<T> {
-
+      
     Node root;
     int tamaño;
     
@@ -69,30 +68,12 @@ public class ListSingly<T> {
     Node<T> current = root;
     System.out.print("Elementos en la lista: ");
     while (current != null) {
-        System.out.println(current.getValor().toString() + " ");
+        System.out.println(current.getValor() + " ");
         current = current.getSiguiente();
     }
-    System.out.println(); 
-    
-   
+    System.out.println(); // Para añadir un salto de línea al final
 }
-public T find(T code) {
-        Node<T> current = root;
+    
         
-        while (current != null) {
-            if (current.getValor().equals(code)) {
-                return (T) current.getValor();
-            }else{
-                current=current.getSiguiente();
-            }
-        }
-        return null;
-      }
-
-
-
     
-   
 }
-
-   

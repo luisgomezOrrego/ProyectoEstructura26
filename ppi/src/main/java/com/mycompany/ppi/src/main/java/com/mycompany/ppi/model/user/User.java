@@ -50,6 +50,8 @@ public class User implements Serializable {
 
     private Ethni ethni;
 
+    private EthnicCommunity ethniaCommunity;
+
     private GenderIdentity genderIdentity;
 
     private Country countryOfResidence;
@@ -85,7 +87,5 @@ public class User implements Serializable {
     private HealthBenefitsPlanEntity familyCompensationBox;
 
     private HealthBenefitsPlanEntity occupationalRiskInsuranceCompany;
-    
-     
 
 }

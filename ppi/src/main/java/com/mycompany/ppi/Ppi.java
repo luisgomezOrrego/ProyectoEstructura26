@@ -1,25 +1,35 @@
 
 package com.mycompany.ppi;
 
+import co.edu.tdea.edd.model.commons.BiologicalSexEnum;
 import co.edu.tdea.edd.model.commons.Disability;
 import co.edu.tdea.edd.model.commons.Ethni;
+import static co.edu.tdea.edd.model.commons.GenderIdentity.selectOption;
 import co.edu.tdea.edd.model.geography.City;
 import co.edu.tdea.edd.model.geography.Country;
 import co.edu.tdea.edd.model.geography.Department;
+import co.edu.tdea.edd.model.user.User;
 import com.mycompany.ppi.estructure.linkedList.singly.ListSingly;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Scanner;
 
 
 public class Ppi {
+static ListSingly<Country> countries  = new ListSingly<>();
+static ListSingly<Disability> Disabilities  = new ListSingly<>();
+static ListSingly<Department> Departments  = new ListSingly<>();
+static ListSingly<City> cities  = new ListSingly<>(); 
+static ListSingly<Ethni> ethnicities  = new ListSingly<>();
 
    public static void main( String[] args ) {
        load();
        menu();
-       
     }
 
-    public static ListSingly  load(){
+    public static  void load(){
         System.out.println("Cargando");
-        ListSingly<Country> countries  = new ListSingly<>();
+        
         countries.add(new Country("COL", "Colombia"));
         countries.add(new Country("BRA", "Brasil"));
         countries.add(new Country("CAN", "Canadá"));
@@ -30,10 +40,6 @@ public class Ppi {
         countries.add(new Country("GBR", "Reino Unido"));
         countries.add(new Country("USA","Estados Unidos"));
         countries.add(new Country("ESP","España"));
-        
-        countries.Show();
-        ListSingly<Disability> Disabilities  = new ListSingly<>(); 
-
         Disabilities.add(new Disability("01","Discapacidad fisica"));
         Disabilities.add(new Disability("02", "Discapacidad visual"));
         Disabilities.add(new Disability("03", "Discapacidad auditiva"));
@@ -44,7 +50,6 @@ public class Ppi {
         Disabilities.add(new Disability("08", "Discapacidad de movilidad"));
         Disabilities.add(new Disability("09", "Discapacidad de movilidad"));
         
-        ListSingly<Department> Departments  = new ListSingly<>();
         Departments.add(new Department("01", "Amazonas", countries.find("COL")));
         Departments.add(new Department("02", "Antioquia", countries.find("COL")));
         Departments.add(new Department("03", "Arauca", countries.find("COL")));
@@ -61,7 +66,7 @@ public class Ppi {
         Departments.add(new Department("14", "Guainía", countries.find("COL")));
         
         
-        ListSingly<City> cities  = new ListSingly<>(); 
+     
          
         cities.add(new City("05001", "Medellín", Departments.find("02")));
         cities.add(new City("05002", "Bello", Departments.find("02")));
@@ -73,28 +78,120 @@ public class Ppi {
         cities.add(new City("05008", "La Ceja", Departments.find("02")));
         cities.add(new City("05009", "Caucasia", Departments.find("02")));
         
-        ListSingly<Ethni> ethnicities  = new ListSingly<>(); 
+       
         ethnicities.add(new Ethni("01","indigena"));
         ethnicities.add(new Ethni("02","ROM(gitanos)"));
         ethnicities.add(new Ethni("03","razial"));
-        ethnicities.add(new Ethni("04","palenquero"));;
+        ethnicities.add(new Ethni("04","palenquero"));
         ethnicities.add(new Ethni("05","negr@"));
         ethnicities.add(new Ethni("06","afrocolombiano"));
         ethnicities.add(new Ethni("99","ninguna"));
         
-        ListSingly<ListSingly> list = new ListSingly<>(); 
-        list.add(countries);
-        list.add(Disabilities);
-        list.add(Departments);
-        list.add(cities);
-        list.add(ethnicities);
-        
-        return list;
+     
+       
     }
 
     public static void menu(){
-        System.out.println("Atender Paciente:");
-        
-    }
+       
+        ListSingly<User> Users  = new ListSingly<>(); 
 
+        Scanner scanner = new Scanner(System.in);
+        int option;
+
+        do {
+            System.out.println("=== Menú de Atención de Pacientes ===");
+            System.out.println("1. Buscar Paciente");
+            System.out.println("2. Crear Paciente");
+            System.out.println("3. Crear Contacto de Salud");
+            System.out.println("4. Proceso de Atención");
+            System.out.println("5. Proceso de Facturación");
+            System.out.println("0. Salir");
+            System.out.print("Selecciona una opción: ");
+            
+            option = scanner.nextInt();
+            scanner.nextLine(); // Limpiar el buffer
+
+            switch (option) {
+                case 1:
+                    
+                    System.out.print("Introduce el ID del paciente: ");
+                    String buscarId = scanner.nextLine();
+                    if ( Users.find(buscarId)!= null) {
+                        System.out.println("Paciente encontrado: " + Users.find(buscarId).getFirstName());
+                    } else {
+                        System.out.println("Paciente no encontrado.");
+                    }
+                    break;
+                case 2:
+                    System.out.print("Ingresa el primer nombre: ");
+                    String firstName = scanner.nextLine();
+
+                    System.out.print("Ingresa el segundo nombre (opcional): ");
+                    String middleName = scanner.nextLine();
+
+                    System.out.print("Ingresa el apellido: ");
+                    String lastName = scanner.nextLine();
+
+                    System.out.print("Ingresa el segundo apellido: ");
+                    String surname = scanner.nextLine();
+                    
+                    System.out.println("digite el codigo del pais de nacionalidad ");
+                    countries.Show(); 
+                    Country nationality;
+                    nationality=countries.find(scanner.nextLine());
+                    nationality.toString();
+                    
+                    System.out.print("Por favor, ingresa tu fecha de cumpleaños (dd/mm/aaaa): ");
+                    String fechaInput = scanner.nextLine();
+
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                    LocalDate cumpleaños = LocalDate.parse(fechaInput, formatter);
+                    
+                    BiologicalSexEnum selectedSex = BiologicalSexEnum.selectOption();
+                    
+                    System.out.print("Ingrese la discapacidad ");
+                    Disabilities.Show();
+                    Disability disability =Disabilities.find(scanner.nextLine());
+                    
+                    System.out.print("Ingrese la discapacidad ");
+                    ethnicities.Show();
+                    Ethni ethni=ethnicities.find(scanner.nextLine());
+                    
+                     String selectedGender = selectOption();
+                     System.out.println("Usted ha seleccionado: " + selectedGender);
+                     
+                    System.out.println("digite el codigo del pais de Residencia ");
+                    countries.Show(); 
+                    Country countryOfResidence;
+                    countryOfResidence=countries.find(scanner.nextLine());
+                    
+                    
+                    
+                    break;
+
+                case 3:
+                   
+                    break;
+                case 4:
+                  
+                    break;
+                case 5:
+                   
+                    break;
+                case 0:
+                    System.out.println("Saliendo...");
+                    break;
+                default:
+                    System.out.println("Opción no válida. Inténtalo de nuevo.");
+                    break;
+            }
+            
+            System.out.println();
+        } while (option != 0);
+        
+        scanner.close();
+    }
 }
+    
+
+
